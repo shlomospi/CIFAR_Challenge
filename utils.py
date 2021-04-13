@@ -2,15 +2,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import random
+import os
+
 
 def to_1_hot(labels):
+    """
+    imubit implementation of 1 hot encoding
+    Args:
+        labels: label tensor as int
+
+    Returns: label tensor as bool
+
+    """
     return np.eye(10)[labels][:, 0, :]
 
 
 def plot_acc_lss(history_log, log_dir=None, verbose=1):
+    """
+    plot loss and acc via plt
+    Args:
+        history_log: history file of training session
+        log_dir: dir to save the plot
+        verbose: 1 for showing the plot 0 for not showing the plot
 
-    # ---list all data in history
-    # print(history_log.history.keys())
+    Returns: NaN
+
+    """
+
     # ----summarize history for accuracy
     plt.subplot(1, 2, 1)
     plt.plot(history_log.history['categorical_accuracy'])
@@ -44,18 +62,11 @@ def plot_acc_lss(history_log, log_dir=None, verbose=1):
                 else:
                     break
     else:
-        try:
-            plt.savefig('{}/training_plots.png'.format(log_dir))
-        except:
-            plt.savefig('{}/training_plots2.png'.format(log_dir))
+
+        plt.savefig('{}/training_plots.png'.format(log_dir))
 
     if verbose >= 1:
         plt.show()
-
-
-def CategoricalCrossentropy_bestoftwo(target, output):
-    mul = tf.math.multiply(target, tf.math.log(output))
-    return - (tf.math.reduce_sum(mul) - tf.reduce_max(target))
 
 
 def sigmoid_cross_entropy_with_logits(target, output):
@@ -96,3 +107,10 @@ def horizontal_flip_and_show(data, labels, verbose=0):
             plt.show()
 
     return tf.concat([data, fliped_data], 0), tf.concat([labels, labels], 0)
+
+
+def check_folder(log_dir):
+
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    return log_dir
