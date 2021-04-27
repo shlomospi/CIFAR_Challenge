@@ -9,10 +9,17 @@ On the premise that inconsistent inaccuracies in the labels will not significant
 The model reached 77% accuracy on the validation set.
 
 # How to run
+
 Run
+
 $ pip install requirements.txt
+
 To load the trained model run:
+
 $ python Main.py -p evaluate
+
 To train a new model run:
+
 $ python Main.py
+
 It is possible to change the epoch number, batch size, learning rate, and log directory from the CLI. More documentation in the code.
